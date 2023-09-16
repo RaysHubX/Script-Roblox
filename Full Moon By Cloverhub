@@ -1,0 +1,48 @@
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+
+OrionLib:MakeNotification({
+	Name = "Andras HUB",
+	Content = "Loading Search Moon 4/5...",
+	Image = "rbxassetid://4483345998",
+	Time = 200
+})
+
+OrionLib:MakeNotification({
+	Name = "Official Website",
+	Content = "https://linktr.ee/cloveruniverse",
+	Image = "rbxassetid://4483345998",
+	Time = 200
+})
+
+OrionLib:MakeNotification({
+	Name = "Beta Full Moon",
+	Content = "This Script Are Beta So I Chances of Success Find 70%",
+	Image = "rbxassetid://4483345998",
+	Time = 150
+})
+
+local Http = game:GetService("HttpService")
+local TPS = game:GetService("TeleportService")
+local Api = "https://games.roblox.com/v1/games/"
+
+local _place = game.PlaceId
+local _servers = Api.._place.."/servers/Public?sortOrder=Asc&limit=100"
+function ListServers(cursor)
+   local Raw = game:HttpGet(_servers .. ((cursor and "&cursor="..cursor) or ""))
+   return Http:JSONDecode(Raw)
+end
+
+local Server, Next; repeat
+   local Servers = ListServers(Next)
+   Server = Servers.data[1]
+   Next = Servers.nextPageCursor
+until Server
+
+TPS:TeleportToPlaceInstance(_place,Server.id,game.Players.LocalPlayer)
+
+OrionLib:MakeNotification({
+	Name = "Succesfully",
+	Content = "Execute Again If The Server Are Full!",
+	Image = "rbxassetid://4483345998",
+	Time = 5
+})
